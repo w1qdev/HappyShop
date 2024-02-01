@@ -1,16 +1,31 @@
 import { motion } from 'framer-motion'
 import Card from '../../components/Card/Card'
-import { axios } from 'axios'
+import axios from 'axios'
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { clearBasket } from '../../store/slices/basketSlice.js';
+import { endpoints } from '../../api/index.js'
+import { toastError, toastSuccess } from '../../utils/toasts.js'
+
 import './BasketPage.scss'
 
 
 const BasketPage = () => {
     const basketStore = useSelector(state => state.basket.basket)
+    const dispatch = useDispatch()
 
     const makeOrder = async () => {
-        await axios.post()
+
+        
+
+        await axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.ORDERS.ROUTE}${endpoints.ORDERS.MAKE_ORDER}`, { basketStore })
+        .then(res => {
+            dispatch(clearBasket())
+            toastSuccess("Отлично! Ваш заказ уже едет к вам")
+        })
+        .catch(err => {
+            toastError("Что-то пошло не так, попробуйте позже")
+        })
     }
 
     return (

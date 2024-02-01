@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import ProductsCatalog from '../../../components/ProductsCatalog/ProductsCatalog';
+import ProductsCatalog from '../../components/ProductsCatalog/ProductsCatalog';
 import './MainPage.scss'
 
 

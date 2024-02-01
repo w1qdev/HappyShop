@@ -7,6 +7,9 @@ export const endpoints = {
     ORDERS: {
         ROUTE: '/api/orders',
         MAKE_ORDER: '/create'
+    },
+    USERS: {
+        ROUTE: '/api/users',
+        CREATE: '/create'
     }
-    
 }

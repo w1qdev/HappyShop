@@ -26,9 +26,8 @@ def create_new_user():
 
         if (isUserExists):
             return jsonify({
-                "message": "Данный пользователь уже существует"    
-            })
-        
+                "error": "Данный пользователь уже существует"    
+            })  
 
         db.users.insert_one(request_data)
 
@@ -89,6 +88,48 @@ def get_all_products():
                     "description": "Описание 1",
                     "price": "345",
                     "count": "5",
+                },{
+                    "id": "2",
+                    "title": "Продукт 1",
+                    "description": "Описание 1",
+                    "price": "345",
+                    "count": "5",
+                },{
+                    "id": "3",
+                    "title": "Продукт 1",
+                    "description": "Описание 1",
+                    "price": "345",
+                    "count": "5",
+                },{
+                    "id": "4",
+                    "title": "Продукт 1",
+                    "description": "Описание 1",
+                    "price": "345",
+                    "count": "5",
+                },{
+                    "id": "5",
+                    "title": "Продукт 1",
+                    "description": "Описание 1",
+                    "price": "345",
+                    "count": "5",
+                },{
+                    "id": "6",
+                    "title": "Продукт 1",
+                    "description": "Описание 1",
+                    "price": "345",
+                    "count": "5",
+                },{
+                    "id": "7",
+                    "title": "Продукт 1",
+                    "description": "Описание 1",
+                    "price": "345",
+                    "count": "5",
+                },{
+                    "id": "8",
+                    "title": "Продукт 1",
+                    "description": "Описание 1",
+                    "price": "345",
+                    "count": "5",
                 }
             ]
         })
@@ -102,10 +143,13 @@ def get_all_products():
 @app.route("/api/orders/create", methods=["POST"])
 def create_new_order():
     try:
-        response = make_response()
         request_data = request.get_json()
 
-        db.orders.insert_one(request_data)
+        order_data = {
+            'orders': request_data['basketStore']
+        }
+
+        db.orders.insert_one(order_data)
 
         response = jsonify({
             'message': 'Новый заказ успешно создан'

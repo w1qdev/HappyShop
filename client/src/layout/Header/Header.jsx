@@ -14,6 +14,9 @@ const Header = () => {
     const basketStore = useSelector(state => state.basket.basket)
 
 
+    
+
+
     return (
         <>
             <AnimatePresence>

@@ -5,6 +5,7 @@ import './Card.scss'
 
 
 const Card = ({ id, title, description, price, count }) => {
+
     const basketStore = useSelector(state => state.basket.basket)
     const isCardInBasket = basketStore.find(elem => elem.id === id)
     const dispatch = useDispatch()
@@ -14,7 +15,6 @@ const Card = ({ id, title, description, price, count }) => {
     const addToCart = () => dispatch(addItemToBasket(productData))
     const removeFormCart = () => dispatch(removeItemFromBasket({ id: id }))
     
-
 
     return (
         <motion.div 

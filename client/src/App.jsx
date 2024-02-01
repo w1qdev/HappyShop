@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import MainPage from './pages/BasketPage/MainPage/MainPage'
+import MainPage from './pages/MainPage/MainPage'
 import BasketPage from './pages/BasketPage/BasketPage'
 import Header from './layout/Header/Header'
 import { ToastContainer } from 'react-toastify'
