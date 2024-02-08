@@ -84,12 +84,14 @@ const BasketPage = () => {
                             <span className="price-count">{totalPrice}₽</span>
                         </div>
 
-                        <button 
+                        <motion.button 
                             className='make-order__button'
                             onClick={makeOrder}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                         >
                             Заказать
-                        </button>
+                        </motion.button>
                     </div>
                 ) : null}
 

@@ -14,7 +14,6 @@ const ProductsCatalog = () => {
     useEffect(() => {
         axios.get(`${endpoints.SERVER_ORIGIN_URI}${endpoints.PRODUCTS.ROUTE}${endpoints.PRODUCTS.GET_ALL}`)
         .then(res => {
-            console.log(res.data.body)
             setCatalogList(res.data.body)
 
         })

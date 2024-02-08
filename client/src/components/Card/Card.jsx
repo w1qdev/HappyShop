@@ -151,8 +151,6 @@ const Card = ({ id, title, description, price, warehouseCount, isCardInOrder }) 
 
     const formattedPrice = price.toLocaleString("ru")
 
-
-
     return (
         <motion.div 
             className="catalog__item"

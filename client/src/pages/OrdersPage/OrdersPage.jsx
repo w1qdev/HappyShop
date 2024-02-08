@@ -11,8 +11,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 
 const OrdersPage = () => {
-
-    const [orders, setOrdersList] = useState([])
     const ordersStore = useSelector(state => state.orders.orders)
     const dispatch = useDispatch()
     const userID = localStorage.getItem('uid')
@@ -20,8 +18,6 @@ const OrdersPage = () => {
 
     const getOrdersTotalPrice = () => {
         let totalPrice = 0
-
-        console.log(ordersStore)
 
         ordersStore.forEach(item => {
             totalPrice += item.price * item.count
@@ -42,7 +38,6 @@ const OrdersPage = () => {
             }
 
             if (res.data.orders) {
-                setOrdersList(res.data.orders)
                 dispatch(setOrders(res.data.orders))
             }
         })

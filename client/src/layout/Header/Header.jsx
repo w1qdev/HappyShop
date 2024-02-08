@@ -3,6 +3,7 @@ import Popup from '../../popups/Popup';
 import { NavLink, Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import BasketIcon from '../../assets/basket/basket.svg'
+import UserIcon from '../../assets/header/user_profile.svg'
 import {
     Menu,
     MenuButton,
@@ -83,8 +84,11 @@ const Header = () => {
                             
                             {isLoggedIn ? (
                                 <Menu>
-                                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                                        {storagedName}
+                                    <MenuButton as={Button} minWidth={"145px"} rightIcon={<ChevronDownIcon />}>
+                                        <div className="menu-button">
+                                            <img src={UserIcon} alt="" />
+                                            {storagedName}
+                                        </div>
                                     </MenuButton>
                                     <MenuList>
                                         <NavLink to='/orders'>

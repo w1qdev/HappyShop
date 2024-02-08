@@ -107,6 +107,7 @@
 
             .menu-item__text {
                 color: #866BFF;
+                font-weight: 500;
             }
 
             .menu-item__icon {
@@ -134,6 +135,17 @@
                 font-weight: 900;
                 margin-right: 10px;
             }
+        }
+    }
+
+    .menu-button {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        img {
+            width: 15px;
+            height: 15px;
         }
     }
 }
