@@ -3,6 +3,16 @@ import Popup from '../../popups/Popup';
 import { NavLink, Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import BasketIcon from '../../assets/basket/basket.svg'
+import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    Button,
+    MenuDivider,
+    Image
+  } from '@chakra-ui/react'
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import './Header.scss'
 import { useState } from 'react';
 
@@ -13,9 +23,14 @@ const Header = () => {
     const [isSingUpPopupOpen, setIsSignUpPopupOpen] = useState(false)
     const basketStore = useSelector(state => state.basket.basket)
 
+    const isLoggedIn = !!localStorage.getItem('name') && !!localStorage.getItem('email')
+    const storagedName = localStorage.getItem('name')
 
-    
-
+    const logoutAccount = () => {
+        localStorage.setItem('name', '')
+        localStorage.setItem('email', '')
+        window.location = '/'
+    }
 
     return (
         <>
@@ -47,7 +62,6 @@ const Header = () => {
                             <NavLink to="/basket" className="basket">
                                 <AnimatePresence>
                                     {basketStore.length ? (
-        
                                             <motion.div 
                                                 className='basket__count'
                                                 initial={{ y: 5, opacity: 0 }}
@@ -61,21 +75,48 @@ const Header = () => {
                                 <img className='basket__icon' src={BasketIcon} alt="" />
                                 <div className="basket__title">Корзина</div>
                             </NavLink>
-                            <div
-                                onClick={() => setIsSignInPopupOpen(prev => !prev)} 
-                                className="button sign-in"
-                                >Войти
-                            </div>
-                            <motion.div 
-                                whileHover={{ 
-                                    scale: 1.02,
-                                    transition: { duration: 0.2 }
-                                }}
-                                whileTap={{ scale: 0.99 }}
-                                className="button sign-up"
-                                onClick={() => setIsSignUpPopupOpen(prev => !prev)}
-                                >Регистрация
-                            </motion.div>
+                            
+                            {isLoggedIn ? (
+                                <Menu>
+                                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                                        {storagedName}
+                                    </MenuButton>
+                                    <MenuList>
+                                        <NavLink to='/orders'>
+                                            <MenuItem minH='48px'>
+                                                    <span className='menu-item__text'>Мои заказы</span>
+                                            </MenuItem>
+                                        </NavLink>
+                                        <MenuDivider />
+                                        <MenuItem minH='40px'>
+                                            <span 
+                                                className='menu-item__text'
+                                                onClick={logoutAccount}
+                                            >
+                                                Выйти
+                                            </span>
+                                        </MenuItem>
+                                    </MenuList>
+                                </Menu>
+                            ) : (
+                                <>
+                                    <div
+                                        onClick={() => setIsSignInPopupOpen(prev => !prev)} 
+                                        className="button sign-in"
+                                        >Войти
+                                    </div>
+                                    <motion.div 
+                                        whileHover={{ 
+                                            scale: 1.02,
+                                            transition: { duration: 0.2 }
+                                        }}
+                                        whileTap={{ scale: 0.99 }}
+                                        className="button sign-up"
+                                        onClick={() => setIsSignUpPopupOpen(prev => !prev)}
+                                        >Регистрация
+                                    </motion.div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

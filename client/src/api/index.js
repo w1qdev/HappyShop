@@ -6,10 +6,12 @@ export const endpoints = {
     },
     ORDERS: {
         ROUTE: '/api/orders',
-        MAKE_ORDER: '/create'
+        MAKE_ORDER: '/create',
+        GET_ORDERS: '/'
     },
     USERS: {
         ROUTE: '/api/users',
-        CREATE: '/create'
+        CREATE: '/create',
+        SIGNIN: '/signin'
     }
 }

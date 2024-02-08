@@ -1,7 +1,6 @@
 import './ProductsCatalog.scss'
 import axios from 'axios'
 import Card from '../Card/Card'
-import { motion } from 'framer-motion'
 import { endpoints } from '../../api'
 import { useEffect, useState } from 'react'
 import { toastError } from '../../utils/toasts'
@@ -33,8 +32,6 @@ const ProductsCatalog = () => {
             {catalogList.length ? catalogList.map(item => (
                 <Card key={item.id} {...item} />
             )) : null}
-            
-            
         </div>
 )
 }

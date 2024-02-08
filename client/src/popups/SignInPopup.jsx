@@ -24,14 +24,24 @@ const SignInPopup = () => {
             return
         }
 
-        await axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.USERS.ROUTE}${endpoints.USERS.CREATE}`, formData)
+        await axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.USERS.ROUTE}${endpoints.USERS.SIGNIN}`, formData)
         .then(res => {
             if (res.data.error) {
                 toastError(res.data.error)
                 return
             }
 
-            toastSuccess("Вы успешно зарегистрированны")
+            if (res.data?.fullName && res.data?.email) {
+                localStorage.setItem('name', res.data.fullName)
+                localStorage.setItem('email', res.data.email)
+
+                window.location = '/'
+            } else {
+                toastError("Что-то пошло не так, попробуйте позже")
+            }
+
+
+            
         })
         .catch(err => {
             toastError("Что-то пошло не так, попробуйте позже")

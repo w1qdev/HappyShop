@@ -39,3 +39,8 @@ content-type: application/json
 }
 
 
+### Orders
+GET http://localhost:5000/api/orders/SPFBuphh69940 HTTP/1.1
+content-type: application/json
+
+

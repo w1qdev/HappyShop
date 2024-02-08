@@ -14,11 +14,29 @@ const BasketPage = () => {
     const basketStore = useSelector(state => state.basket.basket)
     const dispatch = useDispatch()
 
+
+    const getTotalPrice = () => {
+        let totalPrice = 0
+
+        basketStore.forEach(item => {
+            totalPrice += item.price * item.count
+        })
+
+        return totalPrice
+    }
+
     const makeOrder = async () => {
 
-        
+        const storagedName = localStorage.getItem('name') 
+        const storagedEmail = localStorage.getItem('email') 
+        if (storagedName === '' || storagedEmail === '') {
+            toastError("Похоже, что вы не вошли в аккаунт")
+            return
+        }
 
-        await axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.ORDERS.ROUTE}${endpoints.ORDERS.MAKE_ORDER}`, { basketStore })
+        const uid = localStorage.getItem('uid')
+
+        await axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.ORDERS.ROUTE}${endpoints.ORDERS.MAKE_ORDER}`, { basketPrice: getTotalPrice(), basketStore, uid })
         .then(res => {
             dispatch(clearBasket())
             toastSuccess("Отлично! Ваш заказ уже едет к вам")
@@ -59,6 +77,11 @@ const BasketPage = () => {
                 
                 {basketStore.length ? (
                     <div className="basket-page__make-order">
+                        <div className="price">
+                            <span className="price-text">Цена:</span>
+                            <span className="price-count">{getTotalPrice()}₽</span>
+                        </div>
+
                         <button 
                             className='make-order__button'
                             onClick={makeOrder}

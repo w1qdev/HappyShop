@@ -39,6 +39,16 @@ const SignUpPopup = () => {
             }
 
             toastSuccess("Вы успешно зарегистрированны")
+
+            if (res.data.uid) {
+                localStorage.setItem("name", formData.name)
+                localStorage.setItem("email", formData.email)
+                localStorage.setItem("uid", res.data.uid)
+
+                window.location = '/'
+            }
+
+                        
         })
         .catch(err => {
             toastError("Что-то пошло не так, попробуйте позже")

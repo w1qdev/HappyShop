@@ -1,4 +1,4 @@
-.basket-page {
+.orders-page {
     width: 100%;
     padding-top: 108px;
 
@@ -22,11 +22,10 @@
         }
     }
 
-    &__basket {
+    &__orders {
         width: 100%;
-        min-height: 400px;
-        max-height: 400px;
-        overflow: auto;
+        height: 500px;
+        overflow: hidden;
         margin-top: 20px;
         display: flex;
         flex-wrap: wrap;
@@ -36,7 +35,7 @@
         gap: 10px;
     }
 
-    .basket-is-clear {
+    .orders-is-clear {
         width: 100%;
         height: 400px;
         display: flex;
@@ -64,53 +63,6 @@
 
             &:hover {
                 background-color: lighten(#434343, 5);
-            }
-        }
-    }
-
-    &__make-order {
-        width: 100%;
-        height: 100px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-
-        .make-order__button {
-            width: 200px;
-            height: 50px;
-            background-color: #36d42b;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-
-            font-size: 17px;
-            cursor: pointer;
-            transition: background-color 0.2s linear ;
-
-            &:hover {
-                background-color: #3df130;
-            }
-        }
-
-        .price {
-            width: auto;
-            margin-right: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: end;
-            flex-direction: row;
-            line-height: 1.1;
-            height: 20px;
-
-            &-text {
-                margin-right: 7px;  
-                color: #a3a3a3;
-            }
-
-            &-count {
-                font-size: 30px;
-                font-weight: 800;
-                line-height: 0.9;
             }
         }
     }
