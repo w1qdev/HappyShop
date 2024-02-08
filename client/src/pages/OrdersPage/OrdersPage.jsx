@@ -48,7 +48,12 @@ const OrdersPage = () => {
     
 
     return (
-        <div className="orders-page">
+        <motion.div 
+            className="orders-page"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+        >
             <div className="container">
                 <div className="orders-page__title">
                     <div className="title">Мои заказы</div>
@@ -77,13 +82,13 @@ const OrdersPage = () => {
                 {ordersStore.length ? (
                     <div className="orders-page__total-price">
                         <div className="price">
-                            <span className="price-text">Сумма заказов: </span>
+                            <span className="price-text">Сумма заказ: </span>
                             <span className="price-count">{totalPrice}₽</span>
                         </div>
                     </div>
                 ) : null}
             </div>
-        </div>
+        </motion.div>
     )
 }
 

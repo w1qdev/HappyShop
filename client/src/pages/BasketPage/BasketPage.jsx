@@ -6,12 +6,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import { clearBasket } from '../../store/slices/basketSlice.js';
 import { endpoints } from '../../api/index.js'
 import { toastError, toastSuccess } from '../../utils/toasts.js'
+import LoadSpinner from '../../components/LoadSpinner/LoadSpinner.jsx';
+
 
 import './BasketPage.scss'
+import { useState } from 'react';
 
 
 const BasketPage = () => {
     const basketStore = useSelector(state => state.basket.basket)
+    const [isFetching, setIsFetching] = useState(false)
     const dispatch = useDispatch()
 
 
@@ -28,7 +32,7 @@ const BasketPage = () => {
     const totalPrice = getBasketTotalPrice()
 
     const makeOrder = async () => {
-
+        setIsFetching(prev => !prev)
         const storagedName = localStorage.getItem('name') 
         const storagedEmail = localStorage.getItem('email') 
         if (storagedName === '' || storagedEmail === '') {
@@ -42,6 +46,7 @@ const BasketPage = () => {
         .then(res => {
             dispatch(clearBasket())
             toastSuccess("Отлично! Ваш заказ уже едет к вам")
+            setIsFetching(prev => !prev)
         })
         .catch(err => {
             toastError("Что-то пошло не так, попробуйте позже")
@@ -62,6 +67,7 @@ const BasketPage = () => {
                 </div>
 
                 <div className="basket-page__basket">
+
                     {basketStore.length ? basketStore.map(item => (
                         <Card key={item.id} {...item} />
                     )) : (
@@ -90,7 +96,9 @@ const BasketPage = () => {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                         >
-                            Заказать
+                            { isFetching ? (
+                                <LoadSpinner color="#ffffff" size='md' />
+                            ) : ("Заказать") }
                         </motion.button>
                     </div>
                 ) : null}
