@@ -43,4 +43,13 @@ content-type: application/json
 GET http://localhost:5000/api/orders/SPFBuphh69940 HTTP/1.1
 content-type: application/json
 
+###
+POST http://localhost:5000/api/orders/remove-item HTTP/1.1
+content-type: application/json
+
+{
+    "id": 3,
+    "uid": "SPFBuphh69940"
+}
+
 

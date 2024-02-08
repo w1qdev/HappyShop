@@ -7,14 +7,31 @@ import { endpoints } from '../../api';
 import { toastError } from '../../utils/toasts';
 import Card from '../../components/Card/Card';
 import { setOrders } from '../../store/slices/ordersSlice';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 const OrdersPage = () => {
 
     const [orders, setOrdersList] = useState([])
+    const ordersStore = useSelector(state => state.orders.orders)
     const dispatch = useDispatch()
     const userID = localStorage.getItem('uid')
+    
+
+    const getOrdersTotalPrice = () => {
+        let totalPrice = 0
+
+        console.log(ordersStore)
+
+        ordersStore.forEach(item => {
+            totalPrice += item.price * item.count
+        })
+
+        return totalPrice
+    }
+
+    const totalPrice = getOrdersTotalPrice()
+
 
     useEffect(() => {
         axios.get(`${endpoints.SERVER_ORIGIN_URI}${endpoints.ORDERS.ROUTE}${endpoints.ORDERS.GET_ORDERS}/${userID}`)
@@ -44,7 +61,7 @@ const OrdersPage = () => {
                 </div>
 
                 <div className="orders-page__orders">
-                    { orders.length ? orders.map(order => (
+                    { ordersStore.length ? ordersStore.map(order => (
                         <div key={order.id} className="order__group">
                             <Card {...order} isCardInOrder={true} />
                         </div>
@@ -61,6 +78,15 @@ const OrdersPage = () => {
                         </motion.div>
                     ) }
                 </div>
+
+                {ordersStore.length ? (
+                    <div className="orders-page__total-price">
+                        <div className="price">
+                            <span className="price-text">Сумма заказов: </span>
+                            <span className="price-count">{totalPrice}₽</span>
+                        </div>
+                    </div>
+                ) : null}
             </div>
         </div>
     )

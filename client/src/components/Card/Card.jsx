@@ -1,10 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { addItemToBasket, removeItemFromBasket, addBasketItemCount, subtractBasketItemCount } from '../../store/slices/basketSlice'
 import { MinusIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons'
+import { setOrders } from '../../store/slices/ordersSlice';
 import { Tooltip } from '@chakra-ui/react'
+import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import './Card.scss'
+import { endpoints } from '../../api'
+import { toastError, toastSuccess } from '../../utils/toasts'
+import wordDeclenision from '../../utils/wordDeclension';
 
 const CardButton = ({ isCardInOrder, productData, id }) => {
 
@@ -13,6 +18,7 @@ const CardButton = ({ isCardInOrder, productData, id }) => {
     const basketItem = basketStore.find(item => item.id === id ? true : false)
     const startItemCount = basketItem ? basketItem?.count : 1
     const [itemCount, setItemCount] = useState(startItemCount)
+    const userID = localStorage.getItem('uid')
     const dispatch = useDispatch()
 
 
@@ -25,7 +31,19 @@ const CardButton = ({ isCardInOrder, productData, id }) => {
     }
     
     const removeOrderItem = () => {
-        // TODO: Create function which gonna remove order item from basket
+        axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.ORDERS.ROUTE}${endpoints.ORDERS.REMOVE_ITEM}`, { id, uid: userID })
+        .then(res => {
+            if (res.data.error) {
+                toastError(res.data.error)
+                return
+            }
+
+            toastSuccess("Заказ успешно удален")
+            dispatch(setOrders(res.data['new-orders']))
+        })
+        .catch(err => {
+            toastError("Что-то пошло не так, попробуйте позже")
+        })
     }
 
     const itemCountHandler = (e) => {
@@ -146,7 +164,7 @@ const Card = ({ id, title, description, price, warehouseCount, isCardInOrder }) 
             <div className="catalog__item-subtitle">{description}</div>
             <div className="catalog__item-price">{formattedPrice}₽
                 <span>/шт.</span>
-                {isCardInOrder ? <span className='item-count'> • {orderItem?.count} штук</span> : null}
+                {isCardInOrder ? <span className='item-count'> • {orderItem?.count} {wordDeclenision(orderItem?.count)}</span> : null}
             </div>
 
             <CardButton 

@@ -15,7 +15,7 @@ const BasketPage = () => {
     const dispatch = useDispatch()
 
 
-    const getTotalPrice = () => {
+    const getBasketTotalPrice = () => {
         let totalPrice = 0
 
         basketStore.forEach(item => {
@@ -24,6 +24,8 @@ const BasketPage = () => {
 
         return totalPrice
     }
+
+    const totalPrice = getBasketTotalPrice()
 
     const makeOrder = async () => {
 
@@ -36,7 +38,7 @@ const BasketPage = () => {
 
         const uid = localStorage.getItem('uid')
 
-        await axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.ORDERS.ROUTE}${endpoints.ORDERS.MAKE_ORDER}`, { basketPrice: getTotalPrice(), basketStore, uid })
+        await axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.ORDERS.ROUTE}${endpoints.ORDERS.MAKE_ORDER}`, { basketPrice: totalPrice, basketStore, uid })
         .then(res => {
             dispatch(clearBasket())
             toastSuccess("Отлично! Ваш заказ уже едет к вам")
@@ -78,8 +80,8 @@ const BasketPage = () => {
                 {basketStore.length ? (
                     <div className="basket-page__make-order">
                         <div className="price">
-                            <span className="price-text">Цена:</span>
-                            <span className="price-count">{getTotalPrice()}₽</span>
+                            <span className="price-text">Сумма:</span>
+                            <span className="price-count">{totalPrice}₽</span>
                         </div>
 
                         <button 

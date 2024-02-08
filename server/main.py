@@ -78,8 +78,6 @@ def signin_user():
 
         if (request.data): 
             request_data = request.get_json()
-        
-        print(request_data)
 
         user = db.users.find_one({ "email": request_data['email'] })
 
@@ -139,7 +137,7 @@ def create_new_product():
 def get_all_products():
     try:        
         products = db.products.find()
-        collection_data = get_all_collection_data(products)
+        # collection_data = get_all_collection_data(products)
 
         response_data = jsonify({ 
             "body": [
@@ -155,8 +153,6 @@ def get_all_products():
                 { "id": 10, "title": "Комфортные джинсы", "description": "Эти стильные джинсы с высокой посадкой обеспечат комфорт и удобство на каждый день", "price": 3190, "warehouseCount": 8 },
             ]
         })
-
-        print(response_data)
 
         return response_data
     except:
@@ -178,7 +174,6 @@ def create_new_order():
         if (isOrderExist):
             existOrder = db.orders.find_one_and_delete(query_data)
             existOrder['orders'] += request_data['basketStore']
-            print(existOrder)
 
             order_data = {
                 'totalPrice': request_data['basketPrice'],
@@ -217,9 +212,8 @@ def create_new_order():
 def get_order_data(uid):
     try:
         orders_data = db.orders.find_one({ 'uid': uid })
-        print(orders_data)
 
-        if (orders_data['orders']):
+        if (orders_data):
             response = jsonify({    
                 'message': 'Список заказов',
                 'orders': orders_data['orders']
@@ -228,15 +222,54 @@ def get_order_data(uid):
             response = jsonify({
                 'message': 'Заказов не найдено'
             })
-        else:
-            response = jsonify({
-                'message': 'Заказов не найдено'
-            }) 
 
         return response
 
     except:
         print("Some Internal Error")
+
+# create new order
+@app.route("/api/orders/remove-item", methods=["POST"])
+def remove_user_order_item():
+    try: 
+        request_data = request.get_json()
+        
+        query_data = { 'uid': request_data['uid'] }
+        isOrderExist = db.orders.find_one(query_data)
+        if (isOrderExist):
+            existOrder = db.orders.find_one_and_delete(query_data) # TODO: switch to find_one_and_delete 
+            filteredExistOrder = [el for el in existOrder['orders'] if el["id"] != int(request_data['id'])]
+            
+            order_data = {
+                'totalPrice': 0, # TODO: make function which gonna calculate totalPrice using new orders list data
+                'uid': request_data['uid'],
+                'orders': filteredExistOrder
+            }
+
+            db.orders.insert_one(order_data)
+
+            response = jsonify({
+                'message': 'Заказ успешно удалён',
+                'new-orders': filteredExistOrder
+            })
+
+            return response
+
+
+        response = jsonify({
+            'message': 'Заказов не найдено'
+        }) 
+
+        return response
+
+
+    except: 
+        print("Some Internal Error")
+
+# create new order
+@app.route("/api/orders/remove-all", methods=["DELETE"])
+def remove_user_order_all():
+    pass
 
 
 if __name__ == '__main__': 

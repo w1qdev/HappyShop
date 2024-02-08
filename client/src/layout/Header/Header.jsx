@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import Popup from '../../popups/Popup';
 import { NavLink, Outlet } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import BasketIcon from '../../assets/basket/basket.svg'
 import {
     Menu,
@@ -10,11 +10,12 @@ import {
     MenuItem,
     Button,
     MenuDivider,
-    Image
   } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import './Header.scss'
 import { useState } from 'react';
+import { clearOrders } from '../../store/slices/ordersSlice';
+import { clearBasket } from '../../store/slices/basketSlice';
 
 
 const Header = () => {
@@ -22,6 +23,7 @@ const Header = () => {
     const [isSingInPopupOpen, setIsSignInPopupOpen] = useState(false)
     const [isSingUpPopupOpen, setIsSignUpPopupOpen] = useState(false)
     const basketStore = useSelector(state => state.basket.basket)
+    const dispatch = useDispatch()
 
     const isLoggedIn = !!localStorage.getItem('name') && !!localStorage.getItem('email')
     const storagedName = localStorage.getItem('name')
@@ -29,6 +31,9 @@ const Header = () => {
     const logoutAccount = () => {
         localStorage.setItem('name', '')
         localStorage.setItem('email', '')
+        localStorage.setItem('uid', '')
+        dispatch(clearOrders())
+        dispatch(clearBasket())
         window.location = '/'
     }
 

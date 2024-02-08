@@ -7,6 +7,8 @@ export const endpoints = {
     ORDERS: {
         ROUTE: '/api/orders',
         MAKE_ORDER: '/create',
+        REMOVE_ITEM: '/remove-item',
+        REMOVE_ALL: '/remove-all',
         GET_ORDERS: '/'
     },
     USERS: {
