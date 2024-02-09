@@ -5,10 +5,13 @@ import { endpoints } from '../api'
 import { useState } from 'react'
 import { toastError, toastSuccess } from '../utils/toasts'
 import { isDataFilled } from '../utils/isDataFilled'
+import passwordValidator from '../utils/passwordValidator'
+import LoadSpinner from '../components/LoadSpinner/LoadSpinner'
 
 
 const SignUpPopup = () => {
 
+    const [isFetching, setIsFetching] = useState(false) 
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -20,7 +23,14 @@ const SignUpPopup = () => {
 
     const submit = async (e) => {
         e.preventDefault()
+
+        setIsFetching(prev => !prev)
         
+        if (!passwordValidator(formData.password)) {
+            toastError("Длина пароля меньше 8 символов")
+            return
+        }
+
         if (formData.password !== formData.secondPassword) {
             toastError("Введенные пароли не совпадают")
             return
@@ -39,20 +49,22 @@ const SignUpPopup = () => {
             }
 
             toastSuccess("Вы успешно зарегистрированны")
-
+            
             if (res.data.uid) {
                 localStorage.setItem("name", formData.name)
                 localStorage.setItem("email", formData.email)
                 localStorage.setItem("uid", res.data.uid)
 
-                window.location = '/'
-            }
-
-                        
+                setTimeout(() => {
+                    window.location = '/'
+                }, 2000)
+            }           
         })
         .catch(err => {
             toastError("Что-то пошло не так, попробуйте позже")
         })
+
+        setIsFetching(prev => !prev)
     }
 
     return (
@@ -106,7 +118,10 @@ const SignUpPopup = () => {
                 whileTap={{ scale: 0.99 }}
                 className='green'
             >
-                Зарегистрироваться
+                { isFetching ? (
+                    <LoadSpinner color="#ffffff" size='md' />
+                ) : 
+                    ("Зарегистрироваться") }
             </motion.button>     
         </form>
     )

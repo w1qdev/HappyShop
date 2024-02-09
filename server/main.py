@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, make_response, send_file
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from random import randint
+import bcrypt
 
 
 app = Flask(__name__)
@@ -45,9 +46,14 @@ def create_new_user():
 
         if (request.data): 
             request_data = request.get_json()
-        
+
+        salt = bcrypt.gensalt()
+        hashedPassword = bcrypt.hashpw(request_data['password'].encode('utf-8'), salt)
+        print(hashedPassword)
+
         request_data['uid'] = generate_user_id()
-        request_data['orders'] = []
+        request_data['password'] = hashedPassword
+        
 
         isUserExists = db.users.find_one({ "email": request_data['email'] })
 
@@ -85,20 +91,20 @@ def signin_user():
             return jsonify({
                 "error": "Введенные данные оказались неверными"    
             })  
-        
-        if (request_data['password'] != user['password']):
+
+        if bcrypt.checkpw(request_data['password'].encode('utf-8'), user['password']):
+            response = jsonify({
+                'message': "Успешный вход в аккаунт",
+                'fullName': user['name'],
+                'email': user['email'],
+                'uid': user['uid']
+            })
+
+            return response
+        else:
             return jsonify({
                 "error": "Введенные данные оказались неверными"    
             }) 
-
-        response = jsonify({
-            'message': "Успешный вход в аккаунт",
-            'fullName': user['name'],
-            'email': user['password']
-        })
-
-        return response
-
 
     except: 
         print("Some Internal Error")

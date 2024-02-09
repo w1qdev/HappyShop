@@ -4,11 +4,14 @@ import { useState } from 'react'
 import { isDataFilled } from '../utils/isDataFilled'
 import { toastError, toastSuccess } from '../utils/toasts'
 import { endpoints } from '../api'
+import LoadSpinner from '../components/LoadSpinner/LoadSpinner'
+import passwordValidator from '../utils/passwordValidator'
 import axios from 'axios'
 
 
 const SignInPopup = () => {
 
+    const [isFetching, setIsFetching] = useState(false)
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -18,6 +21,13 @@ const SignInPopup = () => {
 
     const submit = async (e) => {
         e.preventDefault()
+
+        setIsFetching(prev => !prev)
+
+        if (!passwordValidator(formData.password)) {
+            toastError("Длина пароля меньше 8 символов")
+            return
+        }
 
         if (isDataFilled(formData)) {
             toastError("Кажется, вы что-то не заполнили")
@@ -34,18 +44,18 @@ const SignInPopup = () => {
             if (res.data?.fullName && res.data?.email) {
                 localStorage.setItem('name', res.data.fullName)
                 localStorage.setItem('email', res.data.email)
+                localStorage.setItem('uid', res.data.uid)
 
                 window.location = '/'
             } else {
                 toastError("Что-то пошло не так, попробуйте позже")
             }
-
-
-            
         })
         .catch(err => {
             toastError("Что-то пошло не так, попробуйте позже")
         })
+
+        setIsFetching(prev => !prev)
     }
 
     return (
@@ -77,7 +87,11 @@ const SignInPopup = () => {
                     transition: { duration: 0.2 }
                 }}
                 whileTap={{ scale: 0.99 }}    
-            >Войти
+            >
+                { isFetching ? (
+                    <LoadSpinner color="#ffffff" size='md' />
+                ) : 
+                    ("Войти") }
             </motion.button>  
         </form>
     )

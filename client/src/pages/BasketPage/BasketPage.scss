@@ -8,9 +8,23 @@
         align-items: start;
 
         .title {
-            font-size: 27px;
-            font-weight: 800;
             color: #434343;
+
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+            &__text {
+                font-size: 27px;
+                font-weight: 800;
+            }
+
+            &__items-count {
+                color: #a3a3a3;
+                margin-left: 15px;
+                margin-top: 7px;
+            }
+
         }
 
         .line {
@@ -107,7 +121,7 @@
                 color: #a3a3a3;
             }
 
-            &-count {
+            &-total {
                 font-size: 30px;
                 font-weight: 800;
                 line-height: 0.9;

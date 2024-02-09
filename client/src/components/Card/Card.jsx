@@ -67,16 +67,12 @@ const CardButton = ({ isCardInOrder, productData, id }) => {
 
     if (isCardInOrder) {
         return (
-            <>
-                {isCardInOrder ? (
-                    <div 
-                        className="catalog__item add-to-cart orange"
-                        onClick={removeOrderItem}
-                    >
-                        Отменить заказ
-                    </div>
-                ) : null}
-            </>
+            <div 
+                className="catalog__item add-to-cart orange"
+                onClick={removeOrderItem}
+            >
+                Отменить заказ
+            </div>    
         )
     } else {
         return (
@@ -162,7 +158,7 @@ const Card = ({ id, title, description, price, warehouseCount, isCardInOrder }) 
             <div className="catalog__item-subtitle">{description}</div>
             <div className="catalog__item-price">{formattedPrice}₽
                 <span>/шт.</span>
-                {isCardInOrder ? <span className='item-count'> • {orderItem?.count} {wordDeclenision(orderItem?.count)}</span> : null}
+                {isCardInOrder ? <span className='item-count'> • {orderItem?.count} {wordDeclenision(orderItem?.count, 'штук')}</span> : null}
             </div>
 
             <CardButton 

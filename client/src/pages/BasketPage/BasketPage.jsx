@@ -7,8 +7,6 @@ import { clearBasket } from '../../store/slices/basketSlice.js';
 import { endpoints } from '../../api/index.js'
 import { toastError, toastSuccess } from '../../utils/toasts.js'
 import LoadSpinner from '../../components/LoadSpinner/LoadSpinner.jsx';
-
-
 import './BasketPage.scss'
 import { useState } from 'react';
 
@@ -62,7 +60,9 @@ const BasketPage = () => {
         >
             <div className="container">
                 <div className="basket-page__title">
-                    <div className="title">Корзина товаров</div>
+                    <div className="title">
+                        <div className="title__text">Корзина товаров</div>
+                    </div>
                     <div className="line"></div>
                 </div>
 
@@ -87,7 +87,7 @@ const BasketPage = () => {
                     <div className="basket-page__make-order">
                         <div className="price">
                             <span className="price-text">Сумма:</span>
-                            <span className="price-count">{totalPrice}₽</span>
+                            <span className="price-total">{totalPrice}₽</span>
                         </div>
 
                         <motion.button 
@@ -98,7 +98,8 @@ const BasketPage = () => {
                         >
                             { isFetching ? (
                                 <LoadSpinner color="#ffffff" size='md' />
-                            ) : ("Заказать") }
+                            ) : 
+                                ("Заказать!") }
                         </motion.button>
                     </div>
                 ) : null}

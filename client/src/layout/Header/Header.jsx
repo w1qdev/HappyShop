@@ -17,6 +17,7 @@ import './Header.scss'
 import { useState } from 'react';
 import { clearOrders } from '../../store/slices/ordersSlice';
 import { clearBasket } from '../../store/slices/basketSlice';
+import HappyShopLogo from '../../assets/header/logo.svg'
 
 
 const Header = () => {
@@ -62,7 +63,10 @@ const Header = () => {
                 <div className="container">
                     <div className="header__inner">
                         <NavLink to="/" className="header__inner__logo">
-                            <span className='logo'>HappyShop</span> Магазин одежды
+                            <div className='logo'>
+                                <img className='logo__icon' src={HappyShopLogo} />
+                                <div className='logo__title'>Happy Shop</div>
+                            </div>
                         </NavLink>
                         <div className="header__inner__buttons">
                             <NavLink to="/basket" className="basket">
@@ -87,7 +91,7 @@ const Header = () => {
                                     <MenuButton as={Button} minWidth={"145px"} rightIcon={<ChevronDownIcon />}>
                                         <div className="menu-button">
                                             <img src={UserIcon} alt="" />
-                                            {storagedName}
+                                            <span className='username'>{storagedName}</span>
                                         </div>
                                     </MenuButton>
                                     <MenuList>

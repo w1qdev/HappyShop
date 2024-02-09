@@ -8,12 +8,14 @@ import { toastError } from '../../utils/toasts';
 import Card from '../../components/Card/Card';
 import { setOrders } from '../../store/slices/ordersSlice';
 import { useDispatch, useSelector } from 'react-redux'
+import LoadSpinner from '../../components/LoadSpinner/LoadSpinner';
 
 
 const OrdersPage = () => {
     const ordersStore = useSelector(state => state.orders.orders)
     const dispatch = useDispatch()
     const userID = localStorage.getItem('uid')
+    const [isFetching, setIsFetching] = useState(false)
     
 
     const getOrdersTotalPrice = () => {
@@ -30,6 +32,8 @@ const OrdersPage = () => {
 
 
     useEffect(() => {
+        setIsFetching(prev => !prev)
+
         axios.get(`${endpoints.SERVER_ORIGIN_URI}${endpoints.ORDERS.ROUTE}${endpoints.ORDERS.GET_ORDERS}/${userID}`)
         .then(res => {
             if (res.data.error){
@@ -44,6 +48,8 @@ const OrdersPage = () => {
         .catch(err => {
             toastError("Что-то пошло не так, попробуйте позже")
         })
+
+        setIsFetching(prev => !prev)
     }, [])
     
 
@@ -61,11 +67,15 @@ const OrdersPage = () => {
                 </div>
 
                 <div className="orders-page__orders">
+
+                    { isFetching ? (
+                        <LoadSpinner color="#866BFF" size='xl' />
+                    ) : null }
+
                     { ordersStore.length ? ordersStore.map(order => (
                         <div key={order.id} className="order__group">
                             <Card {...order} isCardInOrder={true} />
                         </div>
-                        
                     )) : (
                         <motion.div 
                             className="orders-is-clear"

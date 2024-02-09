@@ -30,7 +30,7 @@ const ProductsCatalog = () => {
             {catalogList.length ? catalogList.map(item => (
                 <Card key={item.id} {...item} />
             )) : (
-                <LoadSpinner color='#866BFF' size='xl'  />
+                <LoadSpinner color='#866BFF' size='xl' />
             )}
         </div>
 )

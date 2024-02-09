@@ -21,7 +21,7 @@
         font-size: 17px;
         font-weight: 700;
         display: -webkit-box;
-        -webkit-line-clamp: 1; // количество строк
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -33,7 +33,7 @@
         font-size: 14px;
         color: #979797;
         display: -webkit-box;
-        -webkit-line-clamp: 4; // количество строк
+        -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -61,7 +61,7 @@
         font-size: 0.9em;
         justify-content: center;
         align-items: center;
-        background-color: #866BFF;
+        background-color: #866BFF; // #866BFF
         cursor: pointer;
         border: none;
         margin-bottom: 0;
@@ -111,17 +111,17 @@
                     transition: background-color 0.3s linear;
 
                     &:hover {
-                        background-color: lighten(#fb7447, 7);
+                        background-color: lighten(#fb7447, 10);
                     }
                 }
 
                 &.plus {
-                    background-color: #47fb62;
+                    background-color: #3dd554;
                     cursor: pointer;
                     transition: background-color 0.3s linear;
 
                     &:hover {
-                        background-color: lighten(#47fb62, 7);
+                        background-color: lighten(#3dd554, 10);
                     }
                 }
 
@@ -135,6 +135,12 @@
                         border-radius: 6px;
                         border: none;
                         background-color: #EAEAEA;
+                        border: 1px solid transparent;
+                        transition: border-color 0.3s linear;
+
+                        &:focus {
+                            border-color: #866BFF;
+                        }
                     }
                 }
             }
