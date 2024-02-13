@@ -23,8 +23,6 @@ const SignUpPopup = () => {
 
     const submit = async (e) => {
         e.preventDefault()
-
-        setIsFetching(prev => !prev)
         
         if (!passwordValidator(formData.password)) {
             toastError("Длина пароля меньше 8 символов")
@@ -40,6 +38,8 @@ const SignUpPopup = () => {
             toastError("Кажется, вы что-то не заполнили")
             return
         }
+
+        setIsFetching(prev => !prev)
 
         await axios.post(`${endpoints.SERVER_ORIGIN_URI}${endpoints.USERS.ROUTE}${endpoints.USERS.CREATE}`, formData)
         .then(res => {

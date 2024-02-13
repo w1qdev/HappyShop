@@ -6,7 +6,7 @@ import './OrdersPage.scss'
 import { endpoints } from '../../api';
 import { toastError } from '../../utils/toasts';
 import Card from '../../components/Card/Card';
-import { setOrders } from '../../store/slices/ordersSlice';
+import { setOrders, clearOrders } from '../../store/slices/ordersSlice';
 import { useDispatch, useSelector } from 'react-redux'
 import LoadSpinner from '../../components/LoadSpinner/LoadSpinner';
 
@@ -43,6 +43,8 @@ const OrdersPage = () => {
 
             if (res.data.orders) {
                 dispatch(setOrders(res.data.orders))
+            } else {
+                dispatch(clearOrders())
             }
         })
         .catch(err => {

@@ -101,10 +101,9 @@ const Header = () => {
                                             </MenuItem>
                                         </NavLink>
                                         <MenuDivider />
-                                        <MenuItem minH='40px'>
+                                        <MenuItem onClick={logoutAccount} minH='40px'>
                                             <span 
                                                 className='menu-item__text'
-                                                onClick={logoutAccount}
                                             >
                                                 Выйти
                                             </span>
